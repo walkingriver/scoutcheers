@@ -22,9 +22,9 @@ namespace ScoutCheersWeb
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            //OAuthWebSecurity.RegisterFacebookClient(
-            //    appId: "",
-            //    appSecret: "");
+            OAuthWebSecurity.RegisterFacebookClient(
+                appId: "224966110984587",
+                appSecret: "78bf53da906d39a223e619690d080b4c");
 
             //OAuthWebSecurity.RegisterGoogleClient();
         }
