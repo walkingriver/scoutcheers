@@ -25,11 +25,9 @@ namespace ScoutCheersWeb.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
-
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new CheersContext())
                     {
                         if (!context.Database.Exists())
                         {
