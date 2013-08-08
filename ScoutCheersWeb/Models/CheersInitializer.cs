@@ -2,7 +2,7 @@
 
 namespace ScoutCheersWeb.Models
 {
-    public class CheersInitializer : DropCreateDatabaseIfModelChanges<CheersContext>
+    public class CheersInitializer : DropCreateDatabaseAlways<CheersContext>
     {
         protected override void Seed(CheersContext context)
         {
