@@ -192,6 +192,8 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Cheer.cs" />
+    <Compile Include="Models\CheersContext.cs" />
+    <Compile Include="Models\CheersInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,22 +10,28 @@ namespace ScoutCheersWeb.Controllers
     [Authorize]
     public class CheersController : Controller
     {
-        private CheersContext db = new CheersContext();
+        static readonly Random _random;
+        private readonly CheersContext _db = new CheersContext();
+
+        static CheersController()
+        {
+            _random = new Random();
+        }
 
         //
         // GET: /Cheer/
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(db.Cheers.ToList());
+            return View(_db.Cheers.ToList());
         }
 
         //
         // GET: /Cheer/Details/5
-
+        [AllowAnonymous]
         public ActionResult Details(int id = 0)
         {
-            Cheer cheer = db.Cheers.Find(id);
+            var cheer = _db.Cheers.Find(id);
             if (cheer == null)
             {
                 return HttpNotFound();
@@ -52,8 +56,8 @@ namespace ScoutCheersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Cheers.Add(cheer);
-                db.SaveChanges();
+                _db.Cheers.Add(cheer);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace ScoutCheersWeb.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Cheer cheer = db.Cheers.Find(id);
+            var cheer = _db.Cheers.Find(id);
             if (cheer == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,8 @@ namespace ScoutCheersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cheer).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(cheer).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(cheer);
@@ -94,7 +98,7 @@ namespace ScoutCheersWeb.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Cheer cheer = db.Cheers.Find(id);
+            var cheer = _db.Cheers.Find(id);
             if (cheer == null)
             {
                 return HttpNotFound();
@@ -109,15 +113,36 @@ namespace ScoutCheersWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cheer cheer = db.Cheers.Find(id);
-            db.Cheers.Remove(cheer);
-            db.SaveChanges();
+            Cheer cheer = _db.Cheers.Find(id);
+            _db.Cheers.Remove(cheer);
+            _db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Random()
+        {
+            var upperBound = _db.Cheers.Count() - 1;
+
+            if (upperBound < 0)
+            {
+                throw new HttpException(404, "No cheers exist. Please add some.");
+            }
+
+            var itemsToSkip = _random.Next(0, upperBound);
+            var id = _db.Cheers
+                .OrderBy(x=>x.Id)
+                .Skip(itemsToSkip)
+                .First()
+                .Id;
+
+            return RedirectToAction("Details", new {id});
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

@@ -1,43 +1,24 @@
 ﻿@model ScoutCheersWeb.Models.Cheer
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Name;
 }
 
-<h2>Details</h2>
+<h2>@Model.Name</h2>
 
 <fieldset>
-    <legend>Cheer</legend>
+    <legend>Details</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Votes)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Votes)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.UserProfileId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserProfileId)
-    </div>
+    <p>
+        @Model.Description
+    </p>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("administrator"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
+
+    <a href="@Url.Action("Random")" class="btn">Next (random)</a>
+    <a href="@Url.Action("Index")" class="btn">All Cheers</a>
 </p>

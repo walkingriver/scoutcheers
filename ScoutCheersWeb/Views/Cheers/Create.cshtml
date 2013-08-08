@@ -6,7 +6,8 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -22,27 +23,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Votes)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Votes)
-            @Html.ValidationMessageFor(model => model.Votes)
-        </div>
-
-        <div class="editor-label">
             @Html.LabelFor(model => model.Description)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Description)
             @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.UserProfileId)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.UserProfileId)
-            @Html.ValidationMessageFor(model => model.UserProfileId)
         </div>
 
         <p>
